@@ -1,0 +1,9 @@
+---
+- hosts: centos
+  tasks:
+  - name: Ansible copy file to remote server
+    copy:
+      src: /home/naresh/myplaybooks/new.txt
+      dest: /home/naresh/myplaybooks
+      remote_src: yes
+
