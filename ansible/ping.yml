@@ -1,0 +1,8 @@
+---
+- name: ping module testing
+  hosts: centos
+  tasks:
+    - action: ping
+
+
+
