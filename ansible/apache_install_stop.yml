@@ -1,0 +1,12 @@
+---
+- name: apache install
+  hosts: centos
+  tasks:
+    - yum:
+        name: httpd
+        state: latest
+    - service:
+        name: httpd
+        state: stopped
+
+
