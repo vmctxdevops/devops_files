@@ -1,0 +1,13 @@
+---
+- name: variable example
+  hosts: centos
+  vars:
+    myvar: started
+  tasks:
+    - service:
+        name: httpd
+        state: "{{myvar}}"
+~                                                                               
+~                                                                               
+~                                                                               
+~                            
