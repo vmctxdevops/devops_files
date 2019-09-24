@@ -1,0 +1,20 @@
+---
+- name: jenkins installation
+  hosts: jenkins-slave
+  tasks:
+    - get_url:
+        url: https://pkg.jenkins.io/redhat-stable/jenkins-2.176.3-1.1.noarch.rpm
+        dest: /etc/yum.repos.d/
+    - yum:
+        name: "{{item}}"
+        state: present
+      with_items:
+         - java-1.8.0-openjdk
+         - /etc/yum.repos.d/jenkins-2.176.3-1.1.noarch.rpm
+         - ansible
+         - curl
+         - git
+    - service:
+        name: jenkins
+        state: started
+
