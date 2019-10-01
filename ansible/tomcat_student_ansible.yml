@@ -1,0 +1,41 @@
+---
+- name: tomcat and prerequisite deployment through ansible
+  hosts: webserver
+  tasks:
+    - yum:
+        name: "{{item}}"
+        state: latest
+
+      with_items:
+        - java-1.8.0-openjdk*
+        - httpd
+        - tomcat
+        - tomcat-webapps
+        - tomcat-admin-webapps
+    - service:
+        name: "{{item}}"
+        state: started
+        enabled: yes
+      with_items:
+        - tomcat
+        - httpd
+    - lineinfile:
+        path: /etc/tomcat/tomcat-users.xml
+        line: <user username="naresh" password="naresh" roles="admin-gui,manager-gui,manager-script"/>
+        insertafter: '<tomcat-users>'
+      notify:
+        - start tomcat
+
+    - name: copying war file to tomcat
+      copy:
+        src: /jenkinsdata/workspace/Tomcat_Ansible/target/studentapp-2.5-SNAPSHOT.war
+
+        dest: /var/lib/tomcat/webapps/
+
+  handlers:
+    - name: start tomcat
+      service:
+        name: tomcat
+        state: restarted
+
+
